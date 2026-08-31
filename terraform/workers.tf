@@ -1,11 +1,9 @@
-data "yandex_compute_image" "ubuntu" {
-  family = "ubuntu-2404-lts"
-}
+resource "yandex_compute_instance" "worker" {
+  count = 2
 
-resource "yandex_compute_instance" "master" {
-  name     = "master-${count.index + 1}"
-  hostname = "master-${count.index + 1}"
-  count    = 1
+  hostname = "worker-${count.index + 1}"
+  name     = "worker-${count.index + 1}"
+
   resources {
     cores  = 2
     memory = 4
@@ -25,5 +23,6 @@ resource "yandex_compute_instance" "master" {
 
   metadata = {
     ssh-keys = "ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBFgM6Va1mV5KK2yGt+t8VDalTF+rm8qtKyQRNra/5tX analdestroyer228@MacBook-Air-Mihail.local"
+
   }
 }
