@@ -1,0 +1,9 @@
+- name: Prepare Environment
+  import_playbook: common.yml
+
+- name: Init Master with Calico
+  import_playbook: master.yml
+
+- name: Join Workers
+  import_playbook: workers.yml
+

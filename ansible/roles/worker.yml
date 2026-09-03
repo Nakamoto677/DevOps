@@ -1,0 +1,13 @@
+- name: Connect Worker Nodes to Cluster
+  hosts: workers
+  become: true
+  tasks:
+    - name: Check if node is already member of the cluster
+      ansible.builtin.stat:
+        path: /etc/kubernetes/kubelet.conf
+      register: kubelet_check
+
+    - name: Join Worker Node to Cluster
+      ansible.builtin.shell: "{{ hostvars[groups['masters']]['join_command_raw']['stdout'] }}"
+      when: not kubelet_check.stat.exists
+
